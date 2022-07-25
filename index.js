@@ -34,6 +34,12 @@ app.get('/api/total', (req, res) => {
   })
 })
 
+app.get('/api/rentals', (req, res) => {
+  BikeRental.find({}).then(rentals => {
+    res.json(rentals)
+  })
+})
+
 app.post('/api/rentals', (req, res, next) => {
   const body = req.body
 
