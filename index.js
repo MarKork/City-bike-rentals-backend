@@ -54,8 +54,14 @@ app.post('/api/rentals', (req, res, next) => {
     duration: body[7]
   })
 
-  rental.save()
-  .catch(error => next(error))
+  try{
+    rental.save()
+    res.status(200).send()
+  }catch (error){
+    console.log(error)
+    next(error)
+  }
+
 })
 
 app.listen(PORT, () => {
