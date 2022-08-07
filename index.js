@@ -3,6 +3,7 @@ const express = require('express')
 const cors = require('cors')
 const mongoose = require("mongoose");
 const BikeRental = require('./models/bikeRental')
+const Station = require('./models/station')
 
 const app = express()
 app.use(express.json())
@@ -34,9 +35,25 @@ app.get('/api/total', (req, res) => {
   })
 })
 
+app.get('/api/totalstations', (req, res) => {
+  Station.countDocuments().exec((err, count)=>{
+    if(err){
+      res.send(err)
+      return
+    }
+    res.json({count: count})
+  })
+})
+
 app.get('/api/rentals', (req, res) => {
   BikeRental.find({}).then(rentals => {
     res.json(rentals)
+  })
+})
+
+app.get('/api/stations', (req, res) => {
+  Station.find({}).then(stations => {
+    res.json(stations)
   })
 })
 
@@ -61,7 +78,26 @@ app.post('/api/rentals', (req, res, next) => {
     console.log(error)
     next(error)
   }
+})
 
+app.post('/api/stations', (req, res, next) => {
+  const body = req.body
+  
+  const station = new Station({
+    id: body[1],
+    name: body[2],
+    address: body[5],
+    city: body[7],
+    capacity: body[10]
+  })
+
+  try{
+    station.save()
+    res.status(200).send()
+  }catch (error){
+    console.log(error)
+    next(error)
+  }
 })
 
 app.listen(PORT, () => {
