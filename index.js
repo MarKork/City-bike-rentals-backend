@@ -51,10 +51,52 @@ app.get('/api/rentals', (req, res) => {
   })
 })
 
+app.get('/api/rentals/:departureStationId', (req, res, next) => {
+  BikeRental.find({departureStationId: req.params.departureStationId})
+    .then(rental => {
+      if(rental){
+        res.json(rental)
+      }else{
+        res.status(404).end()
+      }
+      })
+    .catch(error => {
+      next(error)
+    })
+})
+
+app.get('/api/rentals/returns/:returnStationId', (req, res, next) => {
+  BikeRental.find({returnStationId: req.params.returnStationId})
+    .then(rental => {
+      if(rental){
+        res.json(rental)
+      }else{
+        res.status(404).end()
+      }
+      })
+    .catch(error => {
+      next(error)
+    })
+})
+
 app.get('/api/stations', (req, res) => {
   Station.find({}).then(stations => {
     res.json(stations)
   })
+})
+
+app.get('/api/stations/:id', (req, res, next) => {
+  Station.findOne({id: req.params.id})
+    .then(station => {
+      if(station){
+        res.json(station)
+      }else{
+        res.status(404).end()
+      }
+    })
+    .catch(error => {
+      next(error)
+    })
 })
 
 app.post('/api/rentals', (req, res, next) => {
