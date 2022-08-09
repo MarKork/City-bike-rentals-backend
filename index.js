@@ -99,6 +99,20 @@ app.get('/api/stations/:id', (req, res, next) => {
     })
 })
 
+app.get('/api/station/name/:name', (req, res, next) => {
+  Station.findOne({name: req.params.name})
+    .then(station => {
+      if(station){
+        res.json(station)
+      }else{
+        res.status(404).end()
+      }
+    })
+    .catch(error => {
+      next(error)
+    })
+})
+
 app.post('/api/rentals', (req, res, next) => {
   const body = req.body
 
