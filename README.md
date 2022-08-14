@@ -20,5 +20,5 @@ After installation give this:
 
 ### `npm run dev`
 
-for starting it locally.
+for starting it locally. The frontend and backend should be opened and working on the same time.
 
